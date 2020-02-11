@@ -9,13 +9,15 @@
 ### 使用线程池分配线程下载资源
 ### 使用C++11进行开发
 
-##　文件说明
+## 文件说明
+
+
+文件名 | 内容
 -|-
-文件名|内容
 HttpDown | 实现多线程下载，断点续传等操作
 HttpOperation | 实现Http/Https通信过程的一系列操作
 
 ## 使用说明
-### make
-### ./DownLoad url
+#### make
+#### ./DownLoad url
 
