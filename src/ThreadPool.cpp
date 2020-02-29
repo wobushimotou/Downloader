@@ -1,12 +1,12 @@
-#include "mythreadpool.h"
+#include "ThreadPool.h"
 
-mythreadpool::mythreadpool(size_t n) : stop(false){
+ThreadPool::ThreadPool(size_t n) : stop(false){
     for(size_t i = 0;i < n;++i) {
         work_threads.emplace_back(work,this,i);
     }
 
 }
-mythreadpool::~mythreadpool() {
+ThreadPool::~ThreadPool() {
     std::unique_lock<std::mutex> lock(this->tasks_mutex);
     this->stop = true;
     lock.unlock();
@@ -18,13 +18,13 @@ mythreadpool::~mythreadpool() {
     }
 }
 
-void mythreadpool::Wait() {
+void ThreadPool::Wait() {
     for(auto &e:work_threads) {
         e.join();
     }
 }
 
-void mythreadpool::work(mythreadpool *t,int t_num) {
+void ThreadPool::work(ThreadPool *t,int t_num) {
     while(!t->stop) {
         std::unique_lock<std::mutex> lock(t->tasks_mutex);
         t->condition.wait(lock,

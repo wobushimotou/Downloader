@@ -8,10 +8,10 @@
 #include <functional>
 #include <memory>
 #include <iostream>
-class mythreadpool
+class ThreadPool
 {
 public:
-    mythreadpool(size_t n); //构造函数,n表示工作线程数
+    ThreadPool(size_t n); //构造函数,n表示工作线程数
     //添加任务函数到任务队列
     
     template<class F,class...Args>
@@ -19,9 +19,9 @@ public:
 
     void Wait();//等待所有线程任务结束
     
-    ~mythreadpool();        
+    ~ThreadPool();        
     
-    static void work(mythreadpool *,int);
+    static void work(ThreadPool *,int);
 private:
     std::vector<std::thread> work_threads;  //工作线程
     std::queue<std::function<void()>> tasks;//任务队列
@@ -30,7 +30,7 @@ private:
     bool stop;
 };
 template<class F,class ...Args>
-auto mythreadpool::Append(F&& f,Args&&... args)->std::future<typename std::result_of<F(Args...)>::type> {
+auto ThreadPool::Append(F&& f,Args&&... args)->std::future<typename std::result_of<F(Args...)>::type> {
     
     //获取返回值类型
     using return_type = typename std::result_of<F(Args...)>::type;
