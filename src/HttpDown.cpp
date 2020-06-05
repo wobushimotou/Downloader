@@ -4,7 +4,7 @@ HttpDown::HttpDown(string _url,string _name,string _path):
     filename(_name),
     filepath(_path),
     Hp(_url), 
-    threadpool(make_shared<mythreadpool>(50))
+    threadpool(make_shared<mythreadpool>(16))
 {
 
 }
